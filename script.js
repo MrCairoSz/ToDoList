@@ -57,9 +57,9 @@ const downList = function() {
 };
 //Filter
 const searchTask = function() {
-    const input = event.target.value;
+    const input = event.target.value.toLowerCase();
     let newLi = [...actualLi]; //przypisujemy do newLi liste li ktorą pobralismy w addTask
-    newLi = newLi.filter(a => a.textContent.includes(input));
+    newLi = newLi.filter(a => a.textContent.toLowerCase().includes(input));
     newUl.textContent = "";
     newLi.forEach(a => newUl.appendChild(a));
 };
