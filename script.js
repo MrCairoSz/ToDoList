@@ -8,6 +8,9 @@ const downIcon = '<i class="far fa-arrow-alt-circle-down"></i>';
 const task = {
   complete:  [],
 }
+//musimy zadeklarować pusta tablicę do której wpiszemy aktualne li z funkcji addTask a nastepnie wykorzystamy w funkcji filtrującej. Inaczej jesli pobralibysmy li w funkcji filtrujacej searchTask gdybysmy z inputu search usuwali litery lista li by sie nie aktualizowała
+let actualLi =[];
+const newUl = document.querySelector('ul');
 
 
 //change size of input search
@@ -19,12 +22,6 @@ const changeSize = function() {
 const deleteTask = function() {
     const actualLi = this.parentNode.parentNode;
     actualLi.remove();
-    // actualLiValue = actualLi.textContent;
-    // console.log(actualLiValue);
-    // task.complete = task.complete.filter(function(a){
-    //    return a !==actualLiValue;
-    // })
-    
 }
 
 //complete task
@@ -58,6 +55,14 @@ const downList = function() {
     
    
 };
+//Filter
+const searchTask = function() {
+    const input = event.target.value;
+    let newLi = [...actualLi]; //przypisujemy do newLi liste li ktorą pobralismy w addTask
+    newLi = newLi.filter(a => a.textContent.includes(input));
+    newUl.textContent = "";
+    newLi.forEach(a => newUl.appendChild(a));
+};
 
 //add new task
 const addTask = function() {
@@ -81,7 +86,7 @@ const addTask = function() {
     liItem.appendChild(textDiv);
     liItem.appendChild(iconDiv);
     addInput.value = "";
-
+    actualLi = document.querySelectorAll('li');
     //click delete icon
     document.querySelector('.fa-trash-alt').addEventListener('click', deleteTask);
 
@@ -94,6 +99,9 @@ const addTask = function() {
     //click down icon
     document.querySelector('.fa-arrow-alt-circle-down').addEventListener('click', downList);
 }
+
+//search input search
+searchInput.addEventListener('input', searchTask);
 
 //call the function change size of input search
 searchInput.addEventListener('focus', changeSize);
