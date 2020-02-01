@@ -68,7 +68,7 @@ body {
     position: absolute;
     display: inline-block;
     top: 20px;
-    right: 80px;
+    right: 65px;
     font-size: 18px;
     height: 40px;
     width: 100px;
@@ -190,4 +190,51 @@ body {
 
 .icon .fa-arrow-alt-circle-down:hover {
     transform: rotateY(180deg);
+}
+
+@media(max-width: 764px) {
+    .icon {
+        width: 35%;
+        font-size: 20px;
+    }
+
+    .input-button {
+        right: 30px;
+        font-size: 18px;
+        height: 35px;
+        width: 80px;
+    }
+}
+
+@media(max-width: 599px) {
+    .icon {
+        width: 50%;
+        font-size: 18px;
+    }
+
+    .input-button {
+        position: absolute;
+        right: 10px;
+        font-size: 14px;
+        height: 45px;
+        width: 70px;
+    }
+}
+
+@media(max-width: 480px) {
+    .icon {
+        width: 50%;
+        font-size: 16px;
+    }
+
+    .input-button {
+        right: 10px;
+        font-size: 14px;
+        height: 30px;
+        width: 60px;
+    }
+
+    .input-search {
+        text-indent: 8px;
+    }
 }
