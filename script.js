@@ -5,13 +5,10 @@ const trashIcon = '<i class="far fa-trash-alt"></i>';
 const checkIcon = '<i class="far fa-check-square"></i>';
 const upIcon = '<i class="far fa-arrow-alt-circle-up"></i>';
 const downIcon = '<i class="far fa-arrow-alt-circle-down"></i>';
-const task = {
-  complete:  [],
-}
-//musimy zadeklarować pusta tablicę do której wpiszemy aktualne li z funkcji addTask a nastepnie wykorzystamy w funkcji filtrującej. Inaczej jesli pobralibysmy li w funkcji filtrujacej searchTask gdybysmy z inputu search usuwali litery lista li by sie nie aktualizowała
+
+//declarate empty table to put inside actual li from addTask function, the we use it in Filter function
 let actualLi =[];
 const newUl = document.querySelector('ul');
-
 
 //change size of input search
 const changeSize = function() {
@@ -29,36 +26,30 @@ const completed = function() {
     this.classList.toggle('active');
 }
 
-//up task on list
-const upList = function(value) {
+//new position of li when we click up or down arrow icon
+const changePositionList = function(value) {
     const actualList = [...document.querySelectorAll('ul li')];
     const ul = this.parentNode.parentNode.parentNode
     const li = this.parentNode.parentNode;
     //getting the current index of li
     let indexLi = actualList.indexOf(li);
+    if(value === "up") {
         if(indexLi === 0) return;
-        ul.insertBefore(li, ul.childNodes[--indexLi]);     
+        ul.insertBefore(li, ul.childNodes[--indexLi]);  
+    }
+    else {
+        let newIndex = ++indexLi;
+        if(newIndex == actualList.length) return;
+        ul.insertBefore(li, ul.childNodes[++newIndex]); 
+    }             
 };
 
-//down task on list
-const downList = function() {
-    const actualList = [...document.querySelectorAll('ul li')];
-    const ul = this.parentNode.parentNode.parentNode
-    const li = this.parentNode.parentNode;
-    //getting the current index of li
-    let indexList = actualList.indexOf(li);
-    let newIndex = ++indexList;
-   
-    if(newIndex === actualList.length) return;
-    
-    ul.insertBefore(li, ul.childNodes[++newIndex]); 
-    
-   
-};
 //Filter
 const searchTask = function() {
     const input = event.target.value.toLowerCase();
-    let newLi = [...actualLi]; //przypisujemy do newLi liste li ktorą pobralismy w addTask
+
+    //assign to newLi a li-list which we download from addTAsk function 
+    let newLi = [...actualLi]; 
     newLi = newLi.filter(a => a.textContent.toLowerCase().includes(input));
     newUl.textContent = "";
     newLi.forEach(a => newUl.appendChild(a));
@@ -70,14 +61,9 @@ const addTask = function() {
     const addInput = document.querySelector('.input-add');
     if(addInput.value === "") return;
     const inputValue = addInput.value;
-    task.complete.push(inputValue);
     const liItem = document.createElement('li');
     const textDiv = document.createElement('div');
-    for(let i = 0; i <task.complete.length; i++) {
-        textDiv.textContent = task.complete[i];
-    }
-    
-    
+    textDiv.textContent = inputValue;
     const iconDiv = document.createElement('div');
     iconDiv.classList.add('icon');
     iconDiv.innerHTML = trashIcon + checkIcon + upIcon + downIcon;
@@ -87,17 +73,20 @@ const addTask = function() {
     liItem.appendChild(iconDiv);
     addInput.value = "";
     actualLi = document.querySelectorAll('li');
+  
     //click delete icon
     document.querySelector('.fa-trash-alt').addEventListener('click', deleteTask);
 
     //click check icon
     document.querySelector('.fa-check-square').addEventListener('click', completed);
-
+    const upBtnIcon = document.querySelector('.fa-arrow-alt-circle-up');
+  
     //click up icon
-    document.querySelector('.fa-arrow-alt-circle-up').addEventListener('click', upList);
-
+    upBtnIcon.addEventListener('click', changePositionList.bind(upBtnIcon,"up"));
+    const downBtnIcon = document.querySelector('.fa-arrow-alt-circle-down');
+  
     //click down icon
-    document.querySelector('.fa-arrow-alt-circle-down').addEventListener('click', downList);
+    downBtnIcon.addEventListener('click', changePositionList.bind(downBtnIcon,"down"));
 }
 
 //search input search
